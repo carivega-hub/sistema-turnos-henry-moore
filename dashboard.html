@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Henry Moore - Gestión de Turnos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#4182c3',
+                            600: '#346aa5',
+                            700: '#1e3a8a',
+                            900: '#0f172a',
+                            darkNav: '#142742',
+                            navActive: '#2b5486',
+                        },
+                        accent: {
+                            green: '#2e7d32',
+                            greenHover: '#1b5e20',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-slate-100 min-h-screen flex text-slate-800">
+
+    <!-- 1. SIDEBAR IZQUIERDA -->
+    <aside class="w-64 bg-brand-darkNav text-white flex flex-col shrink-0 shadow-2xl min-h-screen">
+        <!-- Logo Header -->
+        <div class="p-6 flex items-center gap-3 border-b border-slate-700/50">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white border border-white/20">
+                <i class="fa-solid fa-hospital text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-base leading-tight tracking-wide">Instituto Henry Moore</h1>
+                <p class="text-[11px] text-slate-400">Tu salud, nuestra prioridad</p>
+            </div>
+        </div>
+
+        <!-- Menú de Navegación -->
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-brand-navActive text-white font-medium text-sm shadow-md transition-all">
+                <i class="fa-solid fa-house w-5 text-center"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white font-medium text-sm transition-all">
+                <i class="fa-regular fa-calendar-check w-5 text-center"></i>
+                <span>Mis Turnos</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white font-medium text-sm transition-all">
+                <i class="fa-solid fa-user-doctor w-5 text-center"></i>
+                <span>Médicos</span>
+            </a>
+        </nav>
+
+        <!-- Pie de menú (Usuario logueado) -->
+        <div class="p-4 border-t border-slate-700/50">
+            <a href="index.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 text-xs font-medium transition-all">
+                <i class="fa-solid fa-right-from-bracket w-5 text-center"></i>
+                <span>Cerrar sesión</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="flex-1 flex flex-col min-w-0">
+        
+        <!-- BARRA SUPERIOR DE BÚSQUEDA -->
+        <header class="h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between gap-4 sticky top-0 z-20">
+            <!-- Buscador -->
+            <div class="relative flex-1 max-w-md">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" placeholder="Buscar por especialidad, médico o especialidad..." 
+                    class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-700 focus:outline-none focus:border-brand-500 focus:bg-white transition-all">
+            </div>
+
+            <!-- Notificaciones y Perfil -->
+            <div class="flex items-center gap-4">
+                <button class="relative w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-all">
+                    <i class="fa-regular fa-bell text-base"></i>
+                    <span class="absolute top-2 right-2.5 w-2 h-2 bg-sky-500 rounded-full"></span>
+                </button>
+                <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+                    <div class="w-9 h-9 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-slate-600 font-semibold text-xs">
+                        <i class="fa-regular fa-user text-sm"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENIDO GRID DE DASHBOARD -->
+        <main class="flex-1 p-8 grid grid-cols-12 gap-8 items-start max-w-[1600px] mx-auto w-full">
+            
+            <!-- COLUMNA IZQUIERDA (CALENDARIO Y TURNOS) -->
+            <section class="col-span-12 lg:col-span-7 space-y-6">
+                
+                <!-- Tarjeta Calendario -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-800">Calendario de Turnos</h2>
+                            <p class="text-xs text-slate-400">Seleccioná una fecha y horario disponibles</p>
+                        </div>
+                        <!-- Navegación Mes -->
+                        <div class="flex items-center gap-4">
+                            <button class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                            <span class="text-sm font-bold text-slate-700">Abril 2026</span>
+                            <button class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Días de la semana -->
+                    <div class="grid grid-cols-7 text-center mb-4">
+                        <span class="text-[11px] font-bold text-slate-400 uppercase">LUN</span>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase">MAR</span>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase">MIÉ</span>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase">JUE</span>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase">VIE</span>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase">SÁB</span>
+                        <span class="text-[11px] font-bold text-slate-400 uppercase">DOM</span>
+                    </div>
+
+                    <!-- Grilla Días del Mes -->
+                    <div class="grid grid-cols-7 gap-y-3 text-center text-xs">
+                        <span class="py-2 text-slate-300 font-medium">31</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">1</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">2</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">3</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">4</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">5</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">6</span>
+
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">7</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">8</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">9</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">10</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">11</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">12</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">13</span>
+
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">14</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">15</span>
+                        <!-- Día Seleccionado (16) -->
+                        <div class="flex justify-center">
+                            <span class="w-8 h-8 flex items-center justify-center bg-brand-darkNav text-white font-bold rounded-full shadow-md">16</span>
+                        </div>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">17</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">18</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">19</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">20</span>
+
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">21</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">22</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">23</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">24</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">25</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">26</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">27</span>
+
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">28</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">29</span>
+                        <span class="py-2 text-slate-600 font-medium cursor-pointer hover:bg-slate-100 rounded-full">30</span>
+                        <span class="py-2 text-slate-300 font-medium">1</span>
+                        <span class="py-2 text-slate-300 font-medium">2</span>
+                        <span class="py-2 text-slate-300 font-medium">3</span>
+                        <span class="py-2 text-slate-300 font-medium">4</span>
+                    </div>
+                </div>
+
+                <!-- Banner Informativo Turnos Disponibles -->
+                <div class="bg-slate-200/50 border border-slate-200 rounded-2xl p-4 flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-brand-500 shadow-sm">
+                        <i class="fa-regular fa-calendar text-lg"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-700">Turnos disponibles</h4>
+                        <p class="text-[11px] text-slate-500">Seleccioná una fecha para ver los horarios disponibles de los médicos.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COLUMNA DERECHA (PROFESIONALES Y RESERVA) -->
+            <section class="col-span-12 lg:col-span-5 space-y-6">
+                
+                <!-- Lista de Profesionales Destacados -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-bold text-slate-800">Profesionales Destacados</h3>
+                        <a href="#" class="text-xs font-medium text-slate-500 hover:text-brand-500 transition-all flex items-center gap-1">Ver todos <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+                    </div>
+
+                    <div class="space-y-3">
+                        <!-- Card Profesional Seleccionado -->
+                        <div class="flex items-center justify-between p-3.5 rounded-xl border-2 border-brand-500/30 bg-brand-50/50 cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-sky-100 text-brand-500 flex items-center justify-center">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-800">Dr. González</h4>
+                                    <p class="text-[11px] text-slate-400">Cardiología</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                        </div>
+
+                        <!-- Card Profesional 2 -->
+                        <div class="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/80 cursor-pointer transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-500 flex items-center justify-center">
+                                    <i class="fa-solid fa-stethoscope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-800">Dra. López</h4>
+                                    <p class="text-[11px] text-slate-400">Medicina General</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                        </div>
+
+                        <!-- Card Profesional 3 -->
+                        <div class="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/80 cursor-pointer transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center">
+                                    <i class="fa-solid fa-bone"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-800">Dr. Ramírez</h4>
+                                    <p class="text-[11px] text-slate-400">Traumatología</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                        </div>
+
+                        <!-- Card Profesional 4 -->
+                        <div class="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 bg-slate-50 hover:bg-slate-100/80 cursor-pointer transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center">
+                                    <i class="fa-solid fa-hand-dots"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-800">Dra. Torres</h4>
+                                    <p class="text-[11px] text-slate-400">Dermatología</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel de Confirmación de Turno -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-5">
+                    <!-- Resumen del Profesional Seleccionado -->
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                        <div class="w-9 h-9 rounded-lg bg-sky-100 text-brand-500 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-800">Dr. González - Cardiología</h4>
+                            <p class="text-[10px] text-slate-400">Instituto Henry Moore</p>
+                        </div>
+                    </div>
+
+                    <!-- Horarios Disponibles -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-3">Horario seleccionado</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button class="py-2 border border-slate-200 rounded-lg text-xs font-medium text-slate-600 hover:border-brand-500 transition-all">09:00</button>
+                            <button class="py-2 bg-brand-darkNav text-white rounded-lg text-xs font-bold shadow-md">09:30</button>
+                            <button class="py-2 border border-slate-200 rounded-lg text-xs font-medium text-slate-600 hover:border-brand-500 transition-all">10:00</button>
+                            <button class="py-2 border border-slate-200 rounded-lg text-xs font-medium text-slate-600 hover:border-brand-500 transition-all">10:30</button>
+                        </div>
+                    </div>
+
+                    <!-- Botón de Confirmación Verde -->
+                    <button onclick="confirmarTurno()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 active:scale-[0.99] transition-all">
+                        <i class="fa-regular fa-calendar-check text-sm"></i>
+                        <span>Confirmar Turno</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 z-50">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toast-message">Turno reservado exitosamente.</span>
+    </div>
+
+    <script>
+        function confirmarTurno() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>

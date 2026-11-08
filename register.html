@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Henry Moore - Crear Cuenta</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            400: '#4aa7f7',
+                            500: '#4182c3',
+                            600: '#346aa5',
+                            700: '#2b5486',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .bg-hexagon-pattern {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#4182c3 0.75px, transparent 0.75px), radial-gradient(#4182c3 0.75px, #f8fafc 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            opacity: 0.95;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-slate-50 min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
+
+    <!-- Hexagon Overlay Background -->
+    <div class="fixed inset-0 bg-hexagon-pattern opacity-10 pointer-events-none"></div>
+
+    <main class="w-full max-w-md z-10">
+        <!-- Tarjeta de Crear Cuenta -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 border border-slate-100 shadow-xl shadow-slate-200/50">
+            
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-800 mb-2">Crear cuenta</h1>
+                <p class="text-sm text-slate-500">Regístrate como paciente o profesional para continuar.</p>
+            </div>
+
+            <form id="registerForm" onsubmit="event.preventDefault(); showToast('Cuenta creada con éxito');" class="space-y-5">
+                
+                <!-- Selector de Rol -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Tipo de usuario</label>
+                    <div class="grid grid-cols-2 p-1 bg-slate-100 rounded-xl gap-1">
+                        <button type="button" id="role-paciente" onclick="setRole('paciente')"
+                            class="py-2 text-xs font-semibold rounded-lg bg-brand-500 text-white shadow-sm transition-all duration-200">
+                            Paciente
+                        </button>
+                        <button type="button" id="role-profesional" onclick="setRole('profesional')"
+                            class="py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200">
+                            Profesional
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="reg-email" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Correo electrónico</label>
+                    <input type="email" id="reg-email" placeholder="tu@gmail.com" required
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/10 transition-all duration-200">
+                </div>
+
+                <div>
+                    <label for="reg-password" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Contraseña</label>
+                    <input type="password" id="reg-password" placeholder="••••••••" required
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/10 transition-all duration-200">
+                </div>
+
+                <button type="submit" 
+                    class="w-full py-3.5 px-4 bg-brand-500 hover:bg-brand-600 text-white font-medium text-sm rounded-xl shadow-md shadow-brand-500/20 active:scale-[0.99] transition-all duration-150">
+                    Registrarse
+                </button>
+
+                <div class="text-center pt-2">
+                    <p class="text-xs text-slate-500">
+                        ¿Ya tienes una cuenta? 
+                        <a href="index.html" class="text-brand-500 font-semibold hover:underline">Iniciar sesión</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Toast Component -->
+    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-800 text-white text-xs px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50">
+        <span id="toast-message">Mensaje</span>
+    </div>
+
+    <script>
+        let selectedRole = 'paciente';
+
+        function setRole(role) {
+            selectedRole = role;
+            const btnPaciente = document.getElementById('role-paciente');
+            const btnProfesional = document.getElementById('role-profesional');
+
+            if (role === 'paciente') {
+                btnPaciente.className = "py-2 text-xs font-semibold rounded-lg bg-brand-500 text-white shadow-sm transition-all duration-200";
+                btnProfesional.className = "py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200";
+            } else {
+                btnProfesional.className = "py-2 text-xs font-semibold rounded-lg bg-brand-500 text-white shadow-sm transition-all duration-200";
+                btnPaciente.className = "py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all duration-200";
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
