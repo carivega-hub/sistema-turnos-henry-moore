@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Henry Moore - Mis Turnos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#4182c3',
+                            600: '#346aa5',
+                            700: '#1e3a8a',
+                            darkNav: '#142742',
+                            navActive: '#2b5486',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased bg-slate-100 min-h-screen flex text-slate-800">
+
+    <!-- 1. SIDEBAR IZQUIERDA -->
+    <aside class="w-64 bg-brand-darkNav text-white flex flex-col shrink-0 shadow-2xl min-h-screen">
+        <!-- Logo Header -->
+        <div class="p-6 flex items-center gap-3 border-b border-slate-700/50">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white border border-white/20">
+                <i class="fa-solid fa-hospital text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-base leading-tight tracking-wide">Instituto Henry Moore</h1>
+                <p class="text-[11px] text-slate-400">Tu salud, nuestra prioridad</p>
+            </div>
+        </div>
+
+        <!-- Menú de Navegación -->
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white font-medium text-sm transition-all">
+                <i class="fa-solid fa-house w-5 text-center"></i>
+                <span>Inicio</span>
+            </a>
+            <!-- Botón activo en Mis Turnos -->
+            <a href="mis-turnos.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-brand-navActive text-white font-medium text-sm shadow-md transition-all">
+                <i class="fa-regular fa-calendar-check w-5 text-center"></i>
+                <span>Mis Turnos</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white font-medium text-sm transition-all">
+                <i class="fa-solid fa-user-doctor w-5 text-center"></i>
+                <span>Médicos</span>
+            </a>
+        </nav>
+
+        <!-- Pie de menú -->
+        <div class="p-4 border-t border-slate-700/50">
+            <a href="index.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 text-xs font-medium transition-all">
+                <i class="fa-solid fa-right-from-bracket w-5 text-center"></i>
+                <span>Cerrar sesión</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="flex-1 flex flex-col min-w-0">
+        
+        <!-- BARRA SUPERIOR DE BÚSQUEDA -->
+        <header class="h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between gap-4 sticky top-0 z-20">
+            <div class="relative flex-1 max-w-md">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" placeholder="Buscar turno por médico o especialidad..." 
+                    class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-700 focus:outline-none focus:border-brand-500 focus:bg-white transition-all">
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="relative w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-all">
+                    <i class="fa-regular fa-bell text-base"></i>
+                    <span class="absolute top-2 right-2.5 w-2 h-2 bg-sky-500 rounded-full"></span>
+                </button>
+                <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+                    <div class="w-9 h-9 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-slate-600 font-semibold text-xs">
+                        <i class="fa-regular fa-user text-sm"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENIDO VISTA MIS TURNOS -->
+        <main class="flex-1 p-8 max-w-[1400px] mx-auto w-full space-y-6">
+            
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800">Historial de Turnos</h2>
+                    <p class="text-xs text-slate-500">Gestión de citas agendadas y registro de atenciones clínicas</p>
+                </div>
+                <a href="dashboard.html" class="px-4 py-2.5 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold rounded-xl shadow-md transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                    <span>Nuevo Turno</span>
+                </a>
+            </div>
+
+            <!-- TABLA DE TURNOS -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider">
+                                <th class="p-4 pl-6">ID Turno</th>
+                                <th class="p-4">Profesional</th>
+                                <th class="p-4">Especialidad</th>
+                                <th class="p-4">Fecha y Hora</th>
+                                <th class="p-4">Estado</th>
+                                <th class="p-4 text-right pr-6">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 font-medium text-slate-700">
+                            <!-- Turno 1: Reservado -->
+                            <tr class="hover:bg-slate-50/80 transition-all">
+                                <td class="p-4 pl-6 font-semibold text-slate-400">#402</td>
+                                <td class="p-4 font-bold text-slate-800">Dr. González</td>
+                                <td class="p-4">Cardiología</td>
+                                <td class="p-4">20 Nov 2026 - 10:30 hs</td>
+                                <td class="p-4">
+                                    <span class="px-3 py-1 bg-sky-100 text-sky-700 font-bold rounded-full text-[11px] inline-flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 bg-sky-500 rounded-full"></span> Reservado
+                                    </span>
+                                </td>
+                                <td class="p-4 text-right pr-6">
+                                    <button onclick="cancelarTurno('#402')" class="px-3 py-1.5 text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg text-xs font-semibold transition-all">
+                                        Cancelar
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Turno 2: Confirmado -->
+                            <tr class="hover:bg-slate-50/80 transition-all">
+                                <td class="p-4 pl-6 font-semibold text-slate-400">#388</td>
+                                <td class="p-4 font-bold text-slate-800">Dra. López</td>
+                                <td class="p-4">Medicina General</td>
+                                <td class="p-4">15 Nov 2026 - 09:00 hs</td>
+                                <td class="p-4">
+                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 font-bold rounded-full text-[11px] inline-flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Confirmado
+                                    </span>
+                                </td>
+                                <td class="p-4 text-right pr-6">
+                                    <button onclick="cancelarTurno('#388')" class="px-3 py-1.5 text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg text-xs font-semibold transition-all">
+                                        Cancelar
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Turno 3: Completado -->
+                            <tr class="hover:bg-slate-50/80 transition-all">
+                                <td class="p-4 pl-6 font-semibold text-slate-400">#315</td>
+                                <td class="p-4 font-bold text-slate-800">Dra. Vega</td>
+                                <td class="p-4">Pediatría</td>
+                                <td class="p-4">15 Oct 2026 - 15:00 hs</td>
+                                <td class="p-4">
+                                    <span class="px-3 py-1 bg-slate-100 text-slate-600 font-bold rounded-full text-[11px] inline-flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> Completado
+                                    </span>
+                                </td>
+                                <td class="p-4 text-right pr-6">
+                                    <span class="text-xs text-slate-400 italic">Sin acciones</span>
+                                </td>
+                            </tr>
+
+                            <!-- Turno 4: Cancelado -->
+                            <tr class="hover:bg-slate-50/80 transition-all">
+                                <td class="p-4 pl-6 font-semibold text-slate-400">#290</td>
+                                <td class="p-4 font-bold text-slate-800">Dr. Ramírez</td>
+                                <td class="p-4">Traumatología</td>
+                                <td class="p-4">02 Oct 2026 - 11:30 hs</td>
+                                <td class="p-4">
+                                    <span class="px-3 py-1 bg-rose-100 text-rose-700 font-bold rounded-full text-[11px] inline-flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> Cancelado
+                                    </span>
+                                </td>
+                                <td class="p-4 text-right pr-6">
+                                    <span class="text-xs text-slate-400 italic">Sin acciones</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 z-50">
+        <i class="fa-solid fa-circle-info text-sky-400 text-base"></i>
+        <span id="toast-message">Solicitud procesada</span>
+    </div>
+
+    <script>
+        function cancelarTurno(id) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = `Solicitando cancelación del turno ${id}...`;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
